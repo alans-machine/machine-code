@@ -1,0 +1,23 @@
+{
+  "name": "machine-code",
+  "version": "0.0.0",
+  "description": "Machine code parser for a Turing machine",
+  "main": "parser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alans-machine/machine-code.git"
+  },
+  "keywords": [
+    "parser",
+    "turing",
+    "machine",
+    "peg"
+  ],
+  "author": "Daan van Berkel",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "930bb3dd5a3bb583fc859939fc9f617ab6d85120"
+}
