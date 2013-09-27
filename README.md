@@ -6,20 +6,6 @@ Machine code parser for a Turing machine.
 Language Specification
 ----------------------
 
-Below is the language specification for Turing machine code.
+The language specification for the Turing machine code is found in the [peg grammar][grammar].
 
-```peg
-program = statement*
-
-statement = current:state ',' read:symbol ',' next:state ',' write:symbol ',' direction ';' newline?
-
-state = 's' digit+
-
-digit = [0-9]
-
-symbol = [a-zA-Z0-9_]
-
-direction = 'L' / 'R'
-
-newline = '\n'
-```
+[grammar]: https://github.com/alans-machine/machine-code/blob/master/grammar/machine_code.peg
