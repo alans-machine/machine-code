@@ -101,21 +101,30 @@ module.exports = (function(){
       
       function parse_program() {
         var result0, result1;
+        var pos0;
         
+        pos0 = pos;
         result0 = [];
         result1 = parse_statement();
         while (result1 !== null) {
           result0.push(result1);
           result1 = parse_statement();
         }
+        if (result0 !== null) {
+          result0 = (function(offset, statements) { statements.forEach(function(statement){ ast.addStatement(statement) }); return ast; })(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
         return result0;
       }
       
       function parse_statement() {
         var result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10;
-        var pos0;
+        var pos0, pos1;
         
         pos0 = pos;
+        pos1 = pos;
         result0 = parse_state();
         if (result0 !== null) {
           if (input.charCodeAt(pos) === 44) {
@@ -182,46 +191,52 @@ module.exports = (function(){
                               result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10];
                             } else {
                               result0 = null;
-                              pos = pos0;
+                              pos = pos1;
                             }
                           } else {
                             result0 = null;
-                            pos = pos0;
+                            pos = pos1;
                           }
                         } else {
                           result0 = null;
-                          pos = pos0;
+                          pos = pos1;
                         }
                       } else {
                         result0 = null;
-                        pos = pos0;
+                        pos = pos1;
                       }
                     } else {
                       result0 = null;
-                      pos = pos0;
+                      pos = pos1;
                     }
                   } else {
                     result0 = null;
-                    pos = pos0;
+                    pos = pos1;
                   }
                 } else {
                   result0 = null;
-                  pos = pos0;
+                  pos = pos1;
                 }
               } else {
                 result0 = null;
-                pos = pos0;
+                pos = pos1;
               }
             } else {
               result0 = null;
-              pos = pos0;
+              pos = pos1;
             }
           } else {
             result0 = null;
-            pos = pos0;
+            pos = pos1;
           }
         } else {
           result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, current, read, next, write, move) { return new Statement(current, read, next, write, move); })(pos0, result0[0], result0[2], result0[4], result0[6], result0[8]);
+        }
+        if (result0 === null) {
           pos = pos0;
         }
         return result0;
@@ -229,9 +244,10 @@ module.exports = (function(){
       
       function parse_state() {
         var result0, result1, result2;
-        var pos0;
+        var pos0, pos1;
         
         pos0 = pos;
+        pos1 = pos;
         if (input.charCodeAt(pos) === 115) {
           result0 = "s";
           pos++;
@@ -256,10 +272,16 @@ module.exports = (function(){
             result0 = [result0, result1];
           } else {
             result0 = null;
-            pos = pos0;
+            pos = pos1;
           }
         } else {
           result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, digits) { return 's' + digits.join(''); })(pos0, result0[1]);
+        }
+        if (result0 === null) {
           pos = pos0;
         }
         return result0;
@@ -381,6 +403,27 @@ module.exports = (function(){
         
         return { line: line, column: column };
       }
+      
+      
+          function AST(){
+          };
+          AST.prototype.addStatement = function(statement){
+      	if (!this[statement.current]) {
+      	    this[statement.current] = {};
+      	}
+      	if (!this[statement.current][statement.read]){
+      	    this[statement.current][statement.read] = {};
+      	}
+      	this[statement.current][statement.read] = statement.action;
+          };
+      
+          function Statement(current, read, next, write, move){
+      	this.current = current;
+      	this.read = read;
+      	this.action = { nextState : next, write: write, move: move };
+          };
+      
+          var ast = new AST();
       
       
       var result = parseFunctions[startRule]();

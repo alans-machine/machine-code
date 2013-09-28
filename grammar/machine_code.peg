@@ -1,8 +1,30 @@
-program = statement*
+{
+    function AST(){
+    };
+    AST.prototype.addStatement = function(statement){
+	if (!this[statement.current]) {
+	    this[statement.current] = {};
+	}
+	if (!this[statement.current][statement.read]){
+	    this[statement.current][statement.read] = {};
+	}
+	this[statement.current][statement.read] = statement.action;
+    };
 
-statement = current:state ',' read:symbol ',' next:state ',' write:symbol ',' direction ';' newline?
+    function Statement(current, read, next, write, move){
+	this.current = current;
+	this.read = read;
+	this.action = { nextState : next, write: write, move: move };
+    };
 
-state = 's' digit+
+    var ast = new AST();
+}
+
+program = statements:statement* { statements.forEach(function(statement){ ast.addStatement(statement) }); return ast; }
+
+statement = current:state ',' read:symbol ',' next:state ',' write:symbol ',' move:direction ';' newline? { return new Statement(current, read, next, write, move); }
+
+state = 's' digits:digit+ { return 's' + digits.join(''); }
 
 digit = [0-9]
 
