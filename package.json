@@ -1,6 +1,6 @@
 {
   "name": "machine-code",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Machine code parser for a Turing machine",
   "main": "machine_code_parser.js",
   "scripts": {
