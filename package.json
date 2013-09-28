@@ -5,7 +5,7 @@
   "main": "machine_code_parser.js",
   "scripts": {
     "start": "./node_modules/.bin/pegjs grammar/machine_code.peg machine_code_parser.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha test/*_test.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "gitHead": "930bb3dd5a3bb583fc859939fc9f617ab6d85120",
   "devDependencies": {
     "peg": "0.0.0",
-    "pegjs": "~0.7.0"
+    "pegjs": "~0.7.0",
+    "mocha": "~1.13.0"
   }
 }
